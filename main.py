@@ -40,10 +40,11 @@ def Article(s):
 @rt("/")
 async def get():
     latest_summaries = summaries(order_by='-created_at', limit=20)
-    return Title("CoolHN"), Body(
+    return Title("DistilHN"), Body(
         H1("AI Summarized Hacker News"),
         P("Front-page articles summarized hourly."),
         *(Article(s) for s in latest_summaries),
+        P("Made by ", A("Johno Whitaker", href='https://johnowhitaker.dev'), ' using ', A('FastHTML', href='https://fastht.ml')),
         cls='container')
 
 
@@ -57,7 +58,7 @@ async def summarize_text(text):
             "role": "user",
             "content": f"Please summarize the following text: {text}"
         }],
-        model="gpt-4o-mini",
+        model="gpt-4.1-nano",
     )
 
     summary = chat_completion.choices[0].message.content.strip()
